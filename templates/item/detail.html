@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>【电影详情】电影推荐系统</title>
+    {% include '../common/css.html' %}
+</head>
+<body>
+    {% include '../common/header.html' %}
+    <div id="all">
+        <div id="content">
+            <div class="container">
+                <div class="row bar">
+                    <div class="col-md-12">
+                        <div class="heading">
+                            <h3 style="font-weight: normal">电影详情</h3>
+                        </div>
+                        <div class="row portfolio-showcase">
+                            <div class="col-md-4">
+                                <div class="image">
+                                    <img src="{{ item.image.url }}" title="{{ item.itemname }}"
+                                         class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3>
+                                    <a href="/item/detail?itemid={{ item.id }}">{{ item.itemname }}</a>
+                                </h3>
+                                <p class="lead" style="color: #747474;font-size: 1rem;margin-bottom: 10px;">
+                                    电影类型：{{ item.typeid.typename }}
+                                </p>
+                                <p class="lead" style="color: #747474;font-size: 1rem;margin-bottom: 10px;">
+                                    添加时间：{{ item.createtime }}
+                                </p>
+                                <p class="lead" style="margin-bottom: 10px;">
+                                    <div class="dicription" >
+                                        <label style="color: #747474;">电影评分：</label>
+                                        <div id="star" style="display: inline-block"></div>
+                                    </div>
+                                </p>
+                                <p class="lead" style="color: #747474;font-size: 1rem;margin-bottom: 10px;">
+                                    电影简介：
+                                </p>
+                                <p>{{ item.content }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	{% include '../common/footer.html' %}
+	{% include '../common/js.html' %}
+    <script src="{% static 'js/jquery.raty.min.js' %}"></script>
+    <script>
+        //评分
+        $('#star').raty(
+                {
+                    score:parseFloat("{{ scorerecord.score }}"),
+                    halfShow:true,
+                    {% if scorerecord.score %}readOnly: true,{% endif %}
+                    path: '/static/images',
+                    hints: ['1分', '2分', '3分', '4分', '5分'],
+                    click: function(score, evt) {
+                        var data = "itemid={{ item.id }}"+"&score="+score+"&csrfmiddlewaretoken={{ csrf_token }}";
+						common_ajax_other("/scorerecord/doScorerecord",data);
+                    }
+                }
+            );
+    </script>
+</body>
+</html>

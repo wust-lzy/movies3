@@ -1,0 +1,42 @@
+<header class="nav-holder make-sticky">
+    <div id="navbar" role="navigation" class="navbar navbar-expand-lg">
+        <div class="container">
+            <a href="/" class="navbar-brand home" title="电影推荐系统"
+               style="font-size: 28px;color: #555;font-weight:500;letter-spacing: 0.1em;">
+                电影推荐系统
+            </a>
+            <div id="navigation" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav ml-auto">
+                    {% if request.session.session_user_isLogin %}
+                        <li class="nav-item dropdown">
+                            <a href="javascript:void(0)" data-toggle="dropdown"
+                               class="dropdown-toggle">用户：{{ request.session.session_user_username }}
+                            </a>
+                            <ul class="dropdown-menu" style="top: 80%;">
+                                <li class="dropdown-item">
+                                    <a href="/user/edit" class="nav-link">信息维护</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="/scorerecord/list" class="nav-link">我的评分</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a href="/logout" class="nav-link">注销</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="/recommend" class="">个性化推荐</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item dropdown">
+                            <a href="/login" class="" title="登录">登录</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="/register" class="" title="注册">注册</a>
+                        </li>
+				    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
